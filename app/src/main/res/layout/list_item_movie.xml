@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black">
+
+    <!-- Movie Poster Image -->
+    <ImageView
+        android:id="@+id/moviePosterImageView"
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_toEndOf="@+id/moviePosterImageView"
+        android:orientation="vertical">
+        <!-- Movie Title -->
+        <TextView
+            android:id="@+id/movieTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Movie Overview -->
+        <TextView
+            android:id="@+id/movieOverviewTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="5" />
+
+        <!-- Movie Genres -->
+        <TextView
+            android:id="@+id/movieGenresTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+    </LinearLayout>
+</RelativeLayout>
