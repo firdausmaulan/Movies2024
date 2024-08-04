@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Movies 2024</string>
-    <string name="search_movies">Search movies...</string>
+    <string name="search_movies">Search movies…</string>
+    <string name="try_again">Try again</string>
+    <string name="error_general">Ups… Something went wrong</string>
 </resources>
