@@ -1,4 +1,4 @@
-package com.fd.movies.presentation.adapter
+package com.fd.movies.ui.movie.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,15 +6,13 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.fd.movies.Constants
+import com.fd.movies.utils.Constants
 import com.fd.movies.R
-import com.fd.movies.data.models.Genre
-import com.fd.movies.data.models.Movie
+import com.fd.movies.data.remote.responses.GenreResponse
+import com.fd.movies.ui.movie.model.Movie
 import com.fd.movies.databinding.ListItemMovieBinding
 
-class MovieAdapter : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(DIFF_CALLBACK) {
-
-    private lateinit var genres: List<Genre>
+class MoviesAdapter : PagingDataAdapter<Movie, MoviesAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ListItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,38 +24,19 @@ class MovieAdapter : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(DIFF
         movie?.let { holder.bind(it) }
     }
 
-    fun setGenres(genres: List<Genre>) {
-        this.genres = genres
-    }
-
     inner class MovieViewHolder(private val binding: ListItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {
             binding.apply {
                 // Load poster image using Glide
-                val imageUrl = "${Constants.IMAGE_URL}${movie.posterPath}"
-                println(imageUrl)
                 Glide.with(itemView)
-                    .load(imageUrl)
+                    .load(movie.posterUrl)
                     .placeholder(R.drawable.placeholder)
                     .into(moviePosterImageView)
-
                 movieTitleTextView.text = movie.title
                 movieOverviewTextView.text = movie.overview
-                movieGenresTextView.text = getGenreText(movie)
+                movieGenresTextView.text = movie.genres
             }
-        }
-    }
-
-    private fun getGenreText(movie: Movie): String {
-        return try {
-            movie.genreIds.joinToString(", ") { genreId ->
-                val genre = genres.find { it.id == genreId }
-                genre?.name ?: ""
-            }
-        } catch (e : NullPointerException) {
-            e.printStackTrace()
-            "-"
         }
     }
 

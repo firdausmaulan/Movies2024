@@ -1,8 +1,10 @@
 package com.fd.movies.di
 
 import android.app.Application
+import android.content.SharedPreferences
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.fd.movies.BuildConfig
+import com.fd.movies.data.local.preference.SharedPrefManager
 import com.fd.movies.data.remote.ApiService
 import com.fd.movies.data.remote.AuthenticationInterceptor
 import dagger.Module
@@ -16,7 +18,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class ApplicationModule {
+object ApplicationModule {
 
     @Provides
     fun provideBaseUrl() = BuildConfig.BASE_URL
@@ -48,4 +50,16 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(
+        sharedPrefModule: SharedPrefModule
+    ): SharedPreferences = sharedPrefModule.getSharedPref()
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferencesManager(sharedPreferences: SharedPreferences): SharedPrefManager {
+        return SharedPrefManager(sharedPreferences)
+    }
 }

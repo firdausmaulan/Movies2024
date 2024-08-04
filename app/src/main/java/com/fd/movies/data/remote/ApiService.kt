@@ -1,7 +1,8 @@
 package com.fd.movies.data.remote
 
-import com.fd.movies.data.responses.GenreResponse
-import com.fd.movies.data.responses.MovieResponse
+import com.fd.movies.data.remote.responses.GenresResponse
+import com.fd.movies.data.remote.responses.MoviesResponse
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,10 +12,10 @@ interface ApiService {
         @Query("query") query: String,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int
-    ): MovieResponse
+    ): Response<MoviesResponse>
 
     @GET("genre/movie/list")
     suspend fun getGenres(
         @Query("language") language: String = "en"
-    ): GenreResponse
+    ): Response<GenresResponse>
 }

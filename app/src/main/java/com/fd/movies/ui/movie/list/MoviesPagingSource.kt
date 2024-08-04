@@ -1,12 +1,15 @@
-package com.fd.movies.presentation.adapter
+package com.fd.movies.ui.movie.list
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.fd.movies.data.models.Movie
+import com.fd.movies.data.mapper.MovieMapper
+import com.fd.movies.data.remote.responses.GenreResponse
 import com.fd.movies.data.repositories.MovieRepository
+import com.fd.movies.ui.movie.model.Movie
 
-class MoviePagingSource(
+class MoviesPagingSource(
     private val repository: MovieRepository,
+    private val genres: List<GenreResponse>,
     private val query: String
 ) : PagingSource<Int, Movie>() {
 
@@ -14,13 +17,15 @@ class MoviePagingSource(
         return try {
             val position = params.key ?: 1
             val response = repository.searchMovies(query, position)
+            val movies = MovieMapper.mapToUiModel(response, genres)
+            var totalPage = 1
+            if (response.totalPages != null) totalPage = response.totalPages
             LoadResult.Page(
-                data = response.results,
+                data = movies,
                 prevKey = if (position == 1) null else position - 1,
-                nextKey = if (position < response.totalPages) position + 1 else null
+                nextKey = if (position < totalPage) position + 1 else null
             )
         } catch (e: Exception) {
-            e.printStackTrace()
             LoadResult.Error(e)
         }
     }
