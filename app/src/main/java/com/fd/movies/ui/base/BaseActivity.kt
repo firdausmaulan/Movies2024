@@ -25,4 +25,6 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     // Sample implementation : https://bitbucket.org/firdaus91/dansmultipro/src/main/ (private repo)
+    // Sample layout naming convention : movies_fragment_layout.xml | movies_item_layout.xml
+    // Group layout by features name (movies, series, etc)
 }
